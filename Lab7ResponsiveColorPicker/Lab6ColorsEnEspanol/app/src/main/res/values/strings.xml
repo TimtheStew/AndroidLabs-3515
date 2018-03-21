@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Lab6ColorsEnEspanol</string>
+
+    <!-- This is the array for the names we'll be passing to determine the colors -->
+    <string-array name="android_colors_array">
+        <item>red</item>
+        <item>blue</item>
+        <item>green</item>
+        <item>black</item>
+        <item>white</item>
+        <item>gray</item>
+        <item>cyan</item>
+        <item>magenta</item>
+        <item>yellow</item>
+        <item>olive</item>
+    </string-array>
+
+    <!-- This is the array of the color names that will be displayed -->
+    <string-array name="colors_array">
+        <item>red</item>
+        <item>blue</item>
+        <item>green</item>
+        <item>black</item>
+        <item>white</item>
+        <item>gray</item>
+        <item>cyan</item>
+        <item>magenta</item>
+        <item>yellow</item>
+        <item>olive</item>
+    </string-array>
+
+</resources>
