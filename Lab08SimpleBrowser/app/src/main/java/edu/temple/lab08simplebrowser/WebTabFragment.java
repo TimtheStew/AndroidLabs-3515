@@ -14,8 +14,10 @@ import android.webkit.WebViewClient;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class WebTabFragment extends Fragment {
+public class WebTabFragment extends android.support.v4.app.Fragment {
 
+    //a name to call our argument by
+    private static final String URL = "url";
     //the fragments current URL
     private String currentUrl;
 
@@ -30,8 +32,11 @@ public class WebTabFragment extends Fragment {
     }
 
     // the factory for the WebTabFragment,
-    public static WebTabFragment newInstance() {
+    public static WebTabFragment newInstance(String url) {
         WebTabFragment webTabFragment = new WebTabFragment();
+        Bundle args = new Bundle();
+        args.putString(URL, url);
+        webTabFragment.setArguments(args);
         return webTabFragment;
     }
 
@@ -45,6 +50,18 @@ public class WebTabFragment extends Fragment {
         }catch(ClassCastException e) {
             throw new ClassCastException(context.toString()
                     + " Must Implement OnUrlChangedListener");
+        }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        //load from savedInstanceState
+        if (savedInstanceState != null) {
+            currentUrl = savedInstanceState.getString(URL);
+        } else if (getArguments() != null){
+            //or from Arguments, if set by factory
+            currentUrl = getArguments().getString(URL);
         }
     }
 
@@ -72,13 +89,27 @@ public class WebTabFragment extends Fragment {
         });
         //enabling JavaScript in the WebView
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.loadUrl(currentUrl);
         return view;
     }
 
+    //to save our current URL if garbage collected or some such
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState){
+        savedInstanceState.putString(URL, currentUrl);
+        super.onSaveInstanceState(savedInstanceState);
+    }
     public interface OnUrlChangedListener {
         public void onUrlChanged(String url);
     }
 
+    // a public method to navigate to the current URL
+    public void navigateToCurrentUrl(){
+        webView.loadUrl(currentUrl);
+        mListener.onUrlChanged(currentUrl);
+    }
+
+    //a public method to navigate to a specific URL
     public void navigateTo(String url) {
         webView.loadUrl(url);
         currentUrl = url;
