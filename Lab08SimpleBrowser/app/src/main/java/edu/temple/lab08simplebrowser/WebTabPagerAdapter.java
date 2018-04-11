@@ -16,6 +16,7 @@ public class WebTabPagerAdapter extends FragmentStatePagerAdapter {
 
     public WebTabPagerAdapter(FragmentManager fm) {
         super(fm);
+        tabArrayList = new ArrayList<>();
     }
 
     public Fragment newTab(String url){
