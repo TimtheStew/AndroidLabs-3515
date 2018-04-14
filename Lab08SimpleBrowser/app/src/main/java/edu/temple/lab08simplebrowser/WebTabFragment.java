@@ -4,6 +4,7 @@ package edu.temple.lab08simplebrowser;
 import android.content.Context;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,13 +63,15 @@ public class WebTabFragment extends android.support.v4.app.Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        Log.d("webtabfrag", "onCreate()");
         //load from savedInstanceState
-        if (savedInstanceState != null) {
-            currentUrl = savedInstanceState.getString(URL);
-        } else if (getArguments() != null){
+        if (getArguments() != null){
             //or from Arguments, if set by factory
+            Log.d("webtabfrag", "onCreate() - setting state from args");
             currentUrl = getArguments().getString(URL);
             mPosition = getArguments().getInt(POS);
+        } else if (savedInstanceState != null) {
+            currentUrl = savedInstanceState.getString(URL);
         }
     }
 
@@ -88,10 +91,14 @@ public class WebTabFragment extends android.support.v4.app.Fragment {
             public void onPageFinished(WebView view, String url){
                 //calling the super
                 super.onPageFinished(view, url);
-                //setting our local value
-                currentUrl = url;
+                Log.d("webtabfrag", "onPageFinished()");
                 //calling a method from the interface we defined to update the EditText
-                mListener.onUrlChanged(url, mPosition);
+                //check to make sure we don't call ourselves forever
+                if (!currentUrl.equals(url)){
+                    //setting our local value
+                    currentUrl = url;
+                    mListener.onUrlChanged(url, mPosition);
+                }
             }
         });
         //enabling JavaScript in the WebView
@@ -113,13 +120,13 @@ public class WebTabFragment extends android.support.v4.app.Fragment {
     // a public method to navigate to the current URL
     public void navigateToCurrentUrl(){
         webView.loadUrl(currentUrl);
-        mListener.onUrlChanged(currentUrl, mPosition);
+        //mListener.onUrlChanged(currentUrl, mPosition);
     }
 
     //a public method to navigate to a specific URL
     public void navigateTo(String url) {
         webView.loadUrl(url);
         currentUrl = url;
-        mListener.onUrlChanged(url, mPosition);
+        //mListener.onUrlChanged(url, mPosition);
     }
 }

@@ -36,7 +36,7 @@
         android:layout_marginTop="40dp"
         android:ems="10"
         android:hint="https://www.google.com"
-        android:inputType="textWebEditText"
+        android:inputType="textUri|textWebEditText"
         app:layout_constraintBottom_toTopOf="@+id/pager"
         app:layout_constraintEnd_toStartOf="@+id/goButton"
         app:layout_constraintStart_toStartOf="parent"

@@ -11,13 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.
-
 /** Main Activity. Holds the EditText for URL's, and a "GO" button for navigating to URL's
  * Also contains a viewpager, that displays a collection of WebTabFragments using a
  * FragmentStatePagerAdapter.
  * The URL EditText always displays the last URL of the current WebTabFragment.  **/
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements WebTabFragment.OnUrlChangedListener {
 
     //the URL edit text
     EditText urlEditText;
@@ -29,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     WebTabPagerAdapter mWebTabPagerAdapter;
     //our current tab index
     int currentTab;
+    int numTabs;
     //the toolbar
     Toolbar mToolbar;
     //the current fragment
@@ -56,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //navigate the current tab to the URL currently in the EditText
                 String url = urlEditText.getText().toString();
+                Log.d("goButt", "tried to go to: " + url);
                 //currWebTabFragment = (WebTabFragment) mWebTabPagerAdapter.getItem(currentTab);
                 //currWebTabFragment.navigateTo(url);
                 //mWebTabPagerAdapter.loadPageFor(currentTab, url);
@@ -63,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
                 //set the url value for this tab to be the url in the textedit
                 mWebTabPagerAdapter.set(currentTab, url);
                 //update the fragment
+                //mWebTabPagerAdapter.notifyDataSetChanged();
                 updateFragment();
-                mWebTabPagerAdapter.notifyDataSetChanged();
             }
         });
         // get a reference to the EditText
@@ -80,21 +80,22 @@ public class MainActivity extends AppCompatActivity {
         mToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(mToolbar);
 
+
         //make the first tab for them
         currentTab = 0;
+        numTabs = 1;
         mWebTabPagerAdapter.add(HOME_PAGE);
-        updateFragment();
         mWebTabPagerAdapter.notifyDataSetChanged();
-
+        updateFragment();
     }
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
-            Log.d("menuu", "left");
             case R.id.action_left:
                 currentTab --;
+                Log.d("menuu", "left");
                 if (currentTab < 0){
                     currentTab = 0;
                 }
@@ -102,14 +103,18 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.action_right:
                 currentTab ++;
+                Log.d("menuu", "right");
                 if (currentTab > (mWebTabPagerAdapter.getCount() - 1)){
                     currentTab = mWebTabPagerAdapter.getCount()-1;
                 }
                 updateFragment();
                 return true;
             case R.id.action_new:
-                currentTab = mWebTabPagerAdapter.getCount();
+                Log.d("menuu", "new");
+                currentTab = numTabs;
+                numTabs++;
                 mWebTabPagerAdapter.add(HOME_PAGE);
+                mWebTabPagerAdapter.notifyDataSetChanged();
                 updateFragment();
                 return true;
             default:
@@ -119,9 +124,14 @@ public class MainActivity extends AppCompatActivity {
     //the method we implement per the interface provided by WebTabFragment
     public void onUrlChanged(String url, int position) {
         urlEditText.setText(url);
+        mWebTabPagerAdapter.set(currentTab, url);
+        mWebTabPagerAdapter.notifyDataSetChanged();
+        updateFragment();
+
     }
 
     public void updateFragment(){
+        Log.d("MainAct", "updtFrag()");
         mViewPager.setCurrentItem(currentTab);
     }
 }
