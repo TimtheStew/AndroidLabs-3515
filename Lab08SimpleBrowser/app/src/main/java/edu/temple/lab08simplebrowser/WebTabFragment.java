@@ -18,6 +18,8 @@ public class WebTabFragment extends android.support.v4.app.Fragment {
 
     //a name to call our argument by
     private static final String URL = "url";
+
+    private static final String POS = "position";
     //the fragments current URL
     private String currentUrl;
 
@@ -27,15 +29,19 @@ public class WebTabFragment extends android.support.v4.app.Fragment {
     //the interface listener
     OnUrlChangedListener mListener;
 
+    //our index
+    int mPosition;
+
     public WebTabFragment() {
         // Required empty public constructor
     }
 
     // the factory for the WebTabFragment,
-    public static WebTabFragment newInstance(String url) {
+    public static WebTabFragment newInstance(String url, int position) {
         WebTabFragment webTabFragment = new WebTabFragment();
         Bundle args = new Bundle();
         args.putString(URL, url);
+        args.putInt(POS, position);
         webTabFragment.setArguments(args);
         return webTabFragment;
     }
@@ -62,6 +68,7 @@ public class WebTabFragment extends android.support.v4.app.Fragment {
         } else if (getArguments() != null){
             //or from Arguments, if set by factory
             currentUrl = getArguments().getString(URL);
+            mPosition = getArguments().getInt(POS);
         }
     }
 
@@ -70,7 +77,7 @@ public class WebTabFragment extends android.support.v4.app.Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_web_tab, container, false);
-        // Grab a refernce to the WebView
+        // Grab a reference to the WebView
         webView = view.findViewById(R.id.webview);
         // Set a new WebView Client
         webView.setWebViewClient(new WebViewClient(){
@@ -84,7 +91,7 @@ public class WebTabFragment extends android.support.v4.app.Fragment {
                 //setting our local value
                 currentUrl = url;
                 //calling a method from the interface we defined to update the EditText
-                mListener.onUrlChanged(url);
+                mListener.onUrlChanged(url, mPosition);
             }
         });
         //enabling JavaScript in the WebView
@@ -100,19 +107,19 @@ public class WebTabFragment extends android.support.v4.app.Fragment {
         super.onSaveInstanceState(savedInstanceState);
     }
     public interface OnUrlChangedListener {
-        public void onUrlChanged(String url);
+        public void onUrlChanged(String url, int position);
     }
 
     // a public method to navigate to the current URL
     public void navigateToCurrentUrl(){
         webView.loadUrl(currentUrl);
-        mListener.onUrlChanged(currentUrl);
+        mListener.onUrlChanged(currentUrl, mPosition);
     }
 
     //a public method to navigate to a specific URL
     public void navigateTo(String url) {
         webView.loadUrl(url);
         currentUrl = url;
-        mListener.onUrlChanged(url);
+        mListener.onUrlChanged(url, mPosition);
     }
 }

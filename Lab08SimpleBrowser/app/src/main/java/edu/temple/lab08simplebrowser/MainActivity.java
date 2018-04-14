@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     Toolbar mToolbar;
     //the current fragment
     WebTabFragment currWebTabFragment;
+    //home page url
+    final String HOME_PAGE = "https://www.google.com";
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -51,8 +53,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //navigate the current tab to the URL currently in the EditText
                 String url = urlEditText.getText().toString();
-                currWebTabFragment = (WebTabFragment) mWebTabPagerAdapter.getItem(currentTab);
-                currWebTabFragment.navigateTo(url);
+                //currWebTabFragment = (WebTabFragment) mWebTabPagerAdapter.getItem(currentTab);
+                //currWebTabFragment.navigateTo(url);
+                //mWebTabPagerAdapter.loadPageFor(currentTab, url);
+
+                //set the url value for this tab to be the url in the textedit
+                mWebTabPagerAdapter.set(currentTab, url);
+                //update the fragment
+                updateFragment();
             }
         });
         // get a reference to the EditText
@@ -64,27 +72,34 @@ public class MainActivity extends AppCompatActivity {
         //set our Pager's adapter
         mViewPager.setAdapter(mWebTabPagerAdapter);
 
+        //set up the toolbar
         mToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(mToolbar);
-        
+
+        //make the first tab for them
+        currentTab = 0;
+        mWebTabPagerAdapter.add(HOME_PAGE);
+        updateFragment();
+
     }
 
     //the method we implement per the interface provided by WebTabFragment
-    public void onUrlChanged(String url) {
+    public void onUrlChanged(String url, int position) {
         urlEditText.setText(url);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
-            case R.id.action_backward:
+            case R.id.action_left:
                 currentTab --;
                 if (currentTab < 0){
                     currentTab = 0;
                 }
                 updateFragment();
                 return true;
-            case R.id.action_forward:
+            case R.id.action_right:
                 currentTab ++;
                 if (currentTab > (mWebTabPagerAdapter.getCount() - 1)){
                     currentTab = mWebTabPagerAdapter.getCount()-1;
@@ -92,8 +107,8 @@ public class MainActivity extends AppCompatActivity {
                 updateFragment();
                 return true;
             case R.id.action_new:
-                mWebTabPagerAdapter.newTab("https://www.google.com");
-                currentTab = mWebTabPagerAdapter.getCount()-1;
+                currentTab = mWebTabPagerAdapter.getCount();
+                mWebTabPagerAdapter.add(HOME_PAGE);
                 updateFragment();
                 return true;
             default:
