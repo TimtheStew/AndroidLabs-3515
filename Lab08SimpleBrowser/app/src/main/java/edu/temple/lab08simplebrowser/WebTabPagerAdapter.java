@@ -16,17 +16,20 @@ public class WebTabPagerAdapter extends FragmentStatePagerAdapter {
 
     private ArrayList<String> urlArrayList;
 
+    private int numTabs;
+
     public WebTabPagerAdapter(FragmentManager fm) {
         super(fm);
         //tabArrayList = new ArrayList<>();
         urlArrayList = new ArrayList<>();
+        numTabs = 0;
     }
-
+    /**
     @Override
     public int getItemPosition(Object object) {
         return POSITION_NONE;
     }
-    /**
+
     @Override
     public Object instantiateItem(ViewGroup container, int position){
         WebTabFragment webTabFragment = WebTabFragment.newInstance("https://wwww.google.com");
@@ -37,24 +40,28 @@ public class WebTabPagerAdapter extends FragmentStatePagerAdapter {
     **/
     @Override
     public Fragment getItem(int position) {
+        if (numTabs == urlArrayList.size() -1){
+            numTabs++;
+        }
         return WebTabFragment.newInstance(urlArrayList.get(position), position);
     }
 
     @Override
     public int getCount() {
-        return urlArrayList.size();
+        return  numTabs;
+        //return urlArrayList.size();
         //return tabArrayList.size();
     }
 
     public void add(String url){
         urlArrayList.add(url);
-        notifyDataSetChanged();
+        //notifyDataSetChanged();
     }
 
     public void set(int position, String url){
         //tabArrayList.add(position, WebTabFragment.newInstance("https://www.google.com"));
         urlArrayList.set(position, url);
-        notifyDataSetChanged();
+        //notifyDataSetChanged();
     }
 
     //the method we implement per the interface provided by WebTabFragment

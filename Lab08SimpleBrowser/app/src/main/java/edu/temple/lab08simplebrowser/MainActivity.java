@@ -4,12 +4,14 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.
 
 /** Main Activity. Holds the EditText for URL's, and a "GO" button for navigating to URL's
  * Also contains a viewpager, that displays a collection of WebTabFragments using a
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     //home page url
     final String HOME_PAGE = "https://www.google.com";
 
+    //overriding a method to create our options menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -61,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 mWebTabPagerAdapter.set(currentTab, url);
                 //update the fragment
                 updateFragment();
+                mWebTabPagerAdapter.notifyDataSetChanged();
             }
         });
         // get a reference to the EditText
@@ -80,18 +84,15 @@ public class MainActivity extends AppCompatActivity {
         currentTab = 0;
         mWebTabPagerAdapter.add(HOME_PAGE);
         updateFragment();
+        mWebTabPagerAdapter.notifyDataSetChanged();
 
-    }
-
-    //the method we implement per the interface provided by WebTabFragment
-    public void onUrlChanged(String url, int position) {
-        urlEditText.setText(url);
     }
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
+            Log.d("menuu", "left");
             case R.id.action_left:
                 currentTab --;
                 if (currentTab < 0){
@@ -114,6 +115,10 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    //the method we implement per the interface provided by WebTabFragment
+    public void onUrlChanged(String url, int position) {
+        urlEditText.setText(url);
     }
 
     public void updateFragment(){

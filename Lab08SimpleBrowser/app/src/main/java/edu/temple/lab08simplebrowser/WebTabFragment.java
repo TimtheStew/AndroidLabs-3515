@@ -53,7 +53,7 @@ public class WebTabFragment extends android.support.v4.app.Fragment {
         super.onAttach(context);
         try {
             mListener = (OnUrlChangedListener) context;
-        }catch(ClassCastException e) {
+        } catch(ClassCastException e) {
             throw new ClassCastException(context.toString()
                     + " Must Implement OnUrlChangedListener");
         }
