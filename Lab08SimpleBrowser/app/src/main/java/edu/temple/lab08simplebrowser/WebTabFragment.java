@@ -19,8 +19,8 @@ public class WebTabFragment extends android.support.v4.app.Fragment {
 
     //a name to call our argument by
     private static final String URL = "url";
-
     private static final String POS = "position";
+
     //the fragments current URL
     private String currentUrl;
 
@@ -64,13 +64,13 @@ public class WebTabFragment extends android.support.v4.app.Fragment {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         Log.d("webtabfrag", "onCreate()");
-        //load from savedInstanceState
+        //Load from arguments
         if (getArguments() != null){
-            //or from Arguments, if set by factory
             Log.d("webtabfrag", "onCreate() - setting state from args");
             currentUrl = getArguments().getString(URL);
             mPosition = getArguments().getInt(POS);
         } else if (savedInstanceState != null) {
+            //or from savedInstanceState
             currentUrl = savedInstanceState.getString(URL);
         }
     }
@@ -113,6 +113,7 @@ public class WebTabFragment extends android.support.v4.app.Fragment {
         savedInstanceState.putString(URL, currentUrl);
         super.onSaveInstanceState(savedInstanceState);
     }
+    //the interface we require any containing activites to implement
     public interface OnUrlChangedListener {
         public void onUrlChanged(String url, int position);
     }

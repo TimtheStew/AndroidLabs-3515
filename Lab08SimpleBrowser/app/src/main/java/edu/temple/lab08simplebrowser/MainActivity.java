@@ -11,6 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import java.util.ArrayList;
+
 /** Main Activity. Holds the EditText for URL's, and a "GO" button for navigating to URL's
  * Also contains a viewpager, that displays a collection of WebTabFragments using a
  * FragmentStatePagerAdapter.
@@ -32,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements WebTabFragment.On
     Toolbar mToolbar;
     //the current fragment
     WebTabFragment currWebTabFragment;
+    //our copy of the current URLs for each tab
+    ArrayList<String> urlArrayList;
     //home page url
     final String HOME_PAGE = "https://www.google.com";
 
@@ -56,14 +61,9 @@ public class MainActivity extends AppCompatActivity implements WebTabFragment.On
                 //navigate the current tab to the URL currently in the EditText
                 String url = urlEditText.getText().toString();
                 Log.d("goButt", "tried to go to: " + url);
-                //currWebTabFragment = (WebTabFragment) mWebTabPagerAdapter.getItem(currentTab);
-                //currWebTabFragment.navigateTo(url);
-                //mWebTabPagerAdapter.loadPageFor(currentTab, url);
-
                 //set the url value for this tab to be the url in the textedit
                 mWebTabPagerAdapter.set(currentTab, url);
                 //update the fragment
-                //mWebTabPagerAdapter.notifyDataSetChanged();
                 updateFragment();
             }
         });
