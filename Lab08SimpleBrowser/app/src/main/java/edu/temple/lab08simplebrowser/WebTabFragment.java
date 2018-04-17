@@ -65,13 +65,13 @@ public class WebTabFragment extends android.support.v4.app.Fragment {
         super.onCreate(savedInstanceState);
         Log.d("webtabfrag", "onCreate()");
         //Load from arguments
-        if (getArguments() != null){
+        if (savedInstanceState != null) {
+            //or from savedInstanceState
+            currentUrl = savedInstanceState.getString(URL);
+        }else if (getArguments() != null){
             Log.d("webtabfrag", "onCreate() - setting state from args");
             currentUrl = getArguments().getString(URL);
             mPosition = getArguments().getInt(POS);
-        } else if (savedInstanceState != null) {
-            //or from savedInstanceState
-            currentUrl = savedInstanceState.getString(URL);
         }
     }
 
