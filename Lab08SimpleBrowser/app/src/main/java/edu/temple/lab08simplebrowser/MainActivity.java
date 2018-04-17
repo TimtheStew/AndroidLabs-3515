@@ -75,6 +75,24 @@ public class MainActivity extends AppCompatActivity implements WebTabFragment.On
         mWebTabPagerAdapter = new WebTabPagerAdapter(getSupportFragmentManager());
         //set our Pager's adapter
         mViewPager.setAdapter(mWebTabPagerAdapter);
+        mViewPager.setOffscreenPageLimit(0);
+        //add this to better track URL's
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                urlEditText.setText(mWebTabPagerAdapter.urlArrayList.get(mViewPager.getCurrentItem()));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         //set up the toolbar
         mToolbar = (Toolbar) findViewById(R.id.my_toolbar);

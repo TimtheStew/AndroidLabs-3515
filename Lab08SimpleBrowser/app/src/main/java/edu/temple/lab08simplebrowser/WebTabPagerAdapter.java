@@ -12,8 +12,9 @@ import java.util.ArrayList;
 
 public class WebTabPagerAdapter extends FragmentStatePagerAdapter {
 
-    private ArrayList<String> urlArrayList;
+    public ArrayList<String> urlArrayList;
     private ArrayList<WebTabFragment> tabArrayList;
+    public WebTabFragment webTabFragment;
 
     private int numTabs;
     private int currTabIndex;
@@ -36,7 +37,6 @@ public class WebTabPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         Log.d("pagAdapt", "getItem()");
-        
         return WebTabFragment.newInstance(urlArrayList.get(position), position);
     }
 
