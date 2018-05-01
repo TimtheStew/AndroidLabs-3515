@@ -53,8 +53,8 @@ public class StockDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(StockDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(StockDetailFragment.ARG_ITEM_ID));
+            arguments.putString(StockDetailFragment.ARG_STOCK_SYMBOL,
+                    getIntent().getStringExtra(StockDetailFragment.ARG_STOCK_SYMBOL));
             StockDetailFragment fragment = new StockDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

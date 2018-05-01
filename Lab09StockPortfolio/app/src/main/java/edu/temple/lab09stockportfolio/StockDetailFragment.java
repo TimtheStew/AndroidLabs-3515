@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import edu.temple.lab09stockportfolio.dummy.DummyContent;
+import edu.temple.lab09stockportfolio.stock.StockContent;
 
 /**
  * A fragment representing a single Stock detail screen.
@@ -22,12 +22,12 @@ public class StockDetailFragment extends Fragment {
      * The fragment argument representing the item ID that this fragment
      * represents.
      */
-    public static final String ARG_ITEM_ID = "item_id";
+    public static final String ARG_STOCK_SYMBOL = "stock_symbol";
 
     /**
-     * The dummy content this fragment is presenting.
+     * The stock content this fragment is presenting.
      */
-    private DummyContent.DummyItem mItem;
+    private StockContent.StockItem mItem;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -40,11 +40,11 @@ public class StockDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
-            // Load the dummy content specified by the fragment
+        if (getArguments().containsKey(ARG_STOCK_SYMBOL)) {
+            // Load the stock content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            mItem = StockContent.ITEM_MAP.get(getArguments().getString(ARG_STOCK_SYMBOL));
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
@@ -59,7 +59,7 @@ public class StockDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.stock_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
+        // Show the stock content as text in a TextView.
         if (mItem != null) {
             ((TextView) rootView.findViewById(R.id.stock_detail)).setText(mItem.details);
         }

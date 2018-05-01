@@ -106,10 +106,6 @@ public class WebTabFragment extends android.support.v4.app.Fragment {
         webView.loadUrl(currentUrl);
         return view;
     }
-    public void callUp(){
-        mListener.onUrlChanged(currentUrl, mPosition);
-    }
-
     //to save our current URL if garbage collected or some such
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState){
@@ -132,5 +128,9 @@ public class WebTabFragment extends android.support.v4.app.Fragment {
         webView.loadUrl(url);
         currentUrl = url;
         //mListener.onUrlChanged(url, mPosition);
+    }
+
+    public void setCurrentUrl(String url){
+        currentUrl = url;
     }
 }

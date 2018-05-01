@@ -26,25 +26,34 @@ public class WebTabPagerAdapter extends FragmentStatePagerAdapter {
         numTabs = 0;
         currTabIndex = 0;
     }
-
+/*
     // we override and this and always return POSITION_NONE so that notifyDataSetChanged() always
     // actually calls getItem() again?
     @Override
     public int getItemPosition(Object object) {
         return POSITION_NONE;
     }
-
+  */
     @Override
     public Fragment getItem(int position) {
         Log.d("pagAdapt", "getItem()");
         return WebTabFragment.newInstance(urlArrayList.get(position), position);
     }
 
+
     @Override
     public int getCount() {
         Log.d("pagAdapt", "getCount()");
         numTabs = urlArrayList.size();
         return  numTabs;
+    }
+    @Override
+    public int getItemPosition(Object object) {
+        WebTabFragment webTabFragment = (WebTabFragment ) object;
+        if (webTabFragment != null) {
+            webTabFragment.navigateTo(urlArrayList.get(webTabFragment.mPosition));
+        }
+        return super.getItemPosition(object);
     }
 
     public void add(String url){
@@ -55,5 +64,8 @@ public class WebTabPagerAdapter extends FragmentStatePagerAdapter {
     public void set(int position, String url){
         Log.d("pagAdapt", "set url to: " + url);
         urlArrayList.set(position, url);
+    }
+    public void goTo(String url){
+
     }
 }

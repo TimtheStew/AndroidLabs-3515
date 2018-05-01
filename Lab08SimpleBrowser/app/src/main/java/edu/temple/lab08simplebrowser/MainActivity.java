@@ -63,6 +63,9 @@ public class MainActivity extends AppCompatActivity implements WebTabFragment.On
                 Log.d("goButt", "tried to go to: " + url);
                 //set the url value for this tab to be the url in the textedit
                 mWebTabPagerAdapter.set(currentTab, url);
+                WebTabFragment webTabFragment = (WebTabFragment) mWebTabPagerAdapter.getItem(mViewPager.getCurrentItem());
+                webTabFragment.setCurrentUrl(url);
+
                 //update the fragment
                 updateFragment();
             }
