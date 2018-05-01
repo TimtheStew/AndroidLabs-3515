@@ -129,7 +129,7 @@ public class StockListActivity extends AppCompatActivity {
             } else {
                 // append the stock info to the file
                 portfolio = new FileWriter("portfolio.txt", true);
-                portfolio.write(currSearchSymbol + " " + json.get("Name") + " " + json.get("LastPrice"));
+                portfolio.write(currSearchSymbol + " " + json.get("Name") + " " + json.get("LastPrice") +"\n");
             }
         } catch (Exception e){
             e.printStackTrace();
